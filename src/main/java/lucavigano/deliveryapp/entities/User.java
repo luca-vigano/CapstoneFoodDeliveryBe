@@ -5,8 +5,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lucavigano.deliveryapp.DTO.RestaurantDTO;
 import lucavigano.deliveryapp.enums.USER_ROLE;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -35,4 +38,9 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> address = new ArrayList<>();
+
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
+    }
 }

@@ -2,7 +2,7 @@ package lucavigano.deliveryapp.enums;
 
 public enum USER_ROLE {
 
-    CUSTOMER,
-    OWNER,
+    RESTAURANT_CUSTOMER,
+    RESTAURANT_OWNER,
     ADMIN
 }
