@@ -2,6 +2,9 @@ package lucavigano.deliveryapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lucavigano.deliveryapp.DTO.RestaurantDTO;
 import lucavigano.deliveryapp.enums.USER_ROLE;
@@ -26,7 +29,9 @@ public class User {
 
     private String fullName;
     private String email;
+    @JsonIgnore
     private String password;
+    @Enumerated(EnumType.STRING)
     private USER_ROLE role;
 
     @JsonIgnore
@@ -39,6 +44,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> address = new ArrayList<>();
 
+    public User(String fullName, String email, String password) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.role = USER_ROLE.RESTAURANT_CUSTOMER;
+    }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));

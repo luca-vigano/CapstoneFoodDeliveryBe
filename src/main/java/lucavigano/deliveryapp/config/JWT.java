@@ -1,8 +1,10 @@
 package lucavigano.deliveryapp.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lucavigano.deliveryapp.entities.User;
+import lucavigano.deliveryapp.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,5 +38,11 @@ public class JWT {
     public String getIdFromToken(String accessToken) {
         return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(accessToken)
                 .getPayload().getSubject();
+    }
+
+    public String getEmailFromToken(String accesToken){
+        Claims claims = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(accesToken).getBody();
+        String email = String.valueOf(claims.get("email"));
+        return email;
     }
 }

@@ -1,6 +1,8 @@
 package lucavigano.deliveryapp.service;
 
+import lucavigano.deliveryapp.DTO.UserDTO;
 import lucavigano.deliveryapp.entities.User;
+import lucavigano.deliveryapp.exceptions.BadRequestException;
 import lucavigano.deliveryapp.exceptions.NotFoundException;
 import lucavigano.deliveryapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +20,22 @@ public class UserService {
     @Autowired
     private PasswordEncoder bcryptencoder;
 
-//    public User save(UtenteDTO body) {
-//        this.utenteRepository.findByEmail(body.email()).ifPresent(dipendente -> {
-//                    throw new BadRequestException("Email " + body.email() + " già in uso");
-//                }
-//        );
-//        Utente newUtente = new Utente(body.username(), body.email(), bcryptencoder.encode(body.password()), body.nome(), body.cognome());
-//        newUtente.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
-//        return this.utenteRepository.save(newUtente);
-//    }
+    public User save(UserDTO body) {
+        this.userRepository.findByEmail(body.email()).ifPresent(dipendente -> {
+                    throw new BadRequestException("Email " + body.email() + " già in uso");
+                }
+        );
+        User newUtente = new User(body.fullname(), body.email(), bcryptencoder.encode(body.password()));
+        //newUtente.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
+        return this.userRepository.save(newUtente);
+    }
 
     public User findById(Long userId) {
         return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+    }
+
+    public User finByEmail(String email) {
+        return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("l'untente con la mail " + email + " non è stato trovato"));
     }
 
 }
