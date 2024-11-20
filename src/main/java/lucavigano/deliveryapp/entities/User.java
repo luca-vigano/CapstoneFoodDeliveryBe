@@ -10,6 +10,7 @@ import lucavigano.deliveryapp.DTO.RestaurantDTO;
 import lucavigano.deliveryapp.enums.USER_ROLE;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,4 +56,5 @@ public class User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
+
 }
