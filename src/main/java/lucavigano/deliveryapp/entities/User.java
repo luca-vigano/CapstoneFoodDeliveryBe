@@ -51,6 +51,7 @@ public class User {
         this.role = USER_ROLE.valueOf(role);
     }
 
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
