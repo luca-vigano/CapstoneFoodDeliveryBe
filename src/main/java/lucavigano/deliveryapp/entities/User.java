@@ -32,7 +32,7 @@ public class User {
     @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
-    private USER_ROLE role;
+    private USER_ROLE role = USER_ROLE.RESTAURANT_CUSTOMER;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
@@ -44,11 +44,11 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> address = new ArrayList<>();
 
-    public User(String fullName, String email, String password) {
+    public User(String fullName, String email, String password,String role) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
-        this.role = USER_ROLE.RESTAURANT_CUSTOMER;
+        this.role = USER_ROLE.valueOf(role);
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

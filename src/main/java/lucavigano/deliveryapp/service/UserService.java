@@ -25,7 +25,7 @@ public class UserService {
                     throw new BadRequestException("Email " + body.email() + " già in uso");
                 }
         );
-        User newUtente = new User(body.fullname(), body.email(), bcryptencoder.encode(body.password()));
+        User newUtente = new User(body.fullname(), body.email(), bcryptencoder.encode(body.password()), body.role());
         //newUtente.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
         return this.userRepository.save(newUtente);
     }

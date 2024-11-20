@@ -11,6 +11,7 @@ import lucavigano.deliveryapp.service.AuthService;
 import lucavigano.deliveryapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,11 @@ public class AuthController {
     private CartRepository cartRepository;
 
     @PostMapping("/login")
-    public UserLoginResponseDTO login(@RequestBody UserLoginDTO body){
-        return new UserLoginResponseDTO(this.authService.checkCredenzialiAndToken(body));
+    public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginDTO body) {
+        UserLoginResponseDTO userLoginResponseDTO = this.authService.checkCredenzialiAndToken(body);
+        return ResponseEntity.ok(userLoginResponseDTO);
     }
+
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
