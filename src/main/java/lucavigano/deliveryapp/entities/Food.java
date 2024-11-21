@@ -34,8 +34,7 @@ public class Food {
     @ManyToOne
     private Restaurant restaurant;
 
-    private boolean inVegetarian;
-    private boolean isSeasonal;
+    private boolean isVegetarian;
 
     @ManyToMany
     private List<IngredientsItem> ingredients  = new ArrayList<>();
