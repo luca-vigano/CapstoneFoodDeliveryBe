@@ -48,7 +48,7 @@ public class AuthController {
         User savedUser = this.userService.save(body);
 
         Cart cart = new Cart();
-        cart.setCutomer(savedUser);
+        cart.setCustomer(savedUser);
         cartRepository.save(cart);
 
 

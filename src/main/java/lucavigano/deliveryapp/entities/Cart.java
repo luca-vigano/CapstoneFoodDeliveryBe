@@ -17,7 +17,7 @@ public class Cart {
     private Long id;
 
     @OneToOne
-    private User cutomer;
+    private User customer;
 
     private Long total;
 
