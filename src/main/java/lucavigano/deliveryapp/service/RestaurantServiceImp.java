@@ -80,10 +80,10 @@ public class RestaurantServiceImp implements RestaurantService {
         return restaurantRepository.findAll();
     }
 
-//    @Override
-//    public List<Restaurant> searchRestaurant(String keyword) {
-//        return restaurantRepository.findBySearchQuery(keyword);
-//    }
+    @Override
+    public List<Restaurant> searchRestaurant(String keyword) {
+        return restaurantRepository.findBySearchQuery(keyword);
+    }
 
     @Override
     public Restaurant findRestaurantById(Long id) throws Exception {
@@ -113,9 +113,20 @@ public class RestaurantServiceImp implements RestaurantService {
         restaurantDTO.setTitle(restaurant.getName());
         restaurantDTO.setId(restaurantId);
 
-        if (user.getFavorites().contains(restaurantDTO)){
-            user.getFavorites().remove(restaurantDTO);
-        } else user.getFavorites().add(restaurantDTO);
+        boolean isFavorite=false;
+        List<RestaurantDTO> favorites = user.getFavorites();
+        for (RestaurantDTO favorite : favorites) {
+            if (favorite.getId().equals(restaurantId)) {
+                isFavorite=true;
+                break;
+            }
+        }
+
+        if (isFavorite){
+            favorites.removeIf(favorite -> favorite.getId().equals(restaurantId));
+        } else {
+            favorites.add(restaurantDTO);
+        }
 
         userRepository.save(user);
         return restaurantDTO;
