@@ -4,7 +4,6 @@ package lucavigano.deliveryapp.controllers;
 import lucavigano.deliveryapp.DTO.OrderRequest;
 import lucavigano.deliveryapp.entities.Order;
 import lucavigano.deliveryapp.entities.User;
-import lucavigano.deliveryapp.repository.UserServ;
 import lucavigano.deliveryapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

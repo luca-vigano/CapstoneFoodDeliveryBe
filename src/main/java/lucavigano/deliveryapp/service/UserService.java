@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -26,7 +25,6 @@ public class UserService {
                 }
         );
         User newUtente = new User(body.fullname(), body.email(), bcryptencoder.encode(body.password()), body.role());
-        //newUtente.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
         return this.userRepository.save(newUtente);
     }
 

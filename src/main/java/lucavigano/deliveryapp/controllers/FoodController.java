@@ -1,10 +1,7 @@
 package lucavigano.deliveryapp.controllers;
 
-import lucavigano.deliveryapp.DTO.CreateFoodRequest;
 import lucavigano.deliveryapp.entities.Food;
-import lucavigano.deliveryapp.entities.Restaurant;
 import lucavigano.deliveryapp.entities.User;
-import lucavigano.deliveryapp.repository.UserServ;
 import lucavigano.deliveryapp.service.FoodService;
 import lucavigano.deliveryapp.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,6 @@ package lucavigano.deliveryapp.controllers;
 import lucavigano.deliveryapp.DTO.RestaurantDTO;
 import lucavigano.deliveryapp.entities.Restaurant;
 import lucavigano.deliveryapp.entities.User;
-import lucavigano.deliveryapp.repository.UserServ;
 import lucavigano.deliveryapp.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

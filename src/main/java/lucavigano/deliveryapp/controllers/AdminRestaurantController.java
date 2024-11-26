@@ -4,16 +4,9 @@ import lucavigano.deliveryapp.DTO.CreateRestaurantRequest;
 import lucavigano.deliveryapp.DTO.MessageResponse;
 import lucavigano.deliveryapp.entities.Restaurant;
 import lucavigano.deliveryapp.entities.User;
-import lucavigano.deliveryapp.exceptions.BadRequestException;
-import lucavigano.deliveryapp.repository.UserServ;
 import lucavigano.deliveryapp.service.RestaurantService;
-import lucavigano.deliveryapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
