@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Order {
     private Long totalAmmount;
 
     private String orderStatus;
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @ManyToOne
     private Address deliveryAddress;
@@ -41,6 +42,6 @@ public class Order {
 
     private int totalItem;
 
-    private int totalPrice;
+    private Long totalPrice;
 
 }

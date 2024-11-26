@@ -4,7 +4,10 @@ import lucavigano.deliveryapp.DTO.AddCartItemRequest;
 import lucavigano.deliveryapp.DTO.UpdateCartItemRequest;
 import lucavigano.deliveryapp.entities.Cart;
 import lucavigano.deliveryapp.entities.CartItem;
+import lucavigano.deliveryapp.entities.User;
+import lucavigano.deliveryapp.repository.UserServ;
 import lucavigano.deliveryapp.service.CartService;
+import lucavigano.deliveryapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class CartController {
+
+    @Autowired
+    private UserServ userService;
 
     @Autowired
     private CartService cartService;
@@ -49,7 +55,8 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public Cart clearCart(@RequestHeader("Authorization") String token) throws Exception {
         String jwt = token.replace("Bearer ", "").trim();
-        Cart cart=cartService.clearCart(jwt);
+        User user=userService.findUserByJwtToken(jwt);
+        Cart cart=cartService.clearCart(user.getId());
         return cart;
     }
 
@@ -57,8 +64,8 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public Cart findUserCart(@RequestHeader("Authorization") String token) throws Exception {
         String jwt = token.replace("Bearer ", "").trim();
-
-        Cart cart=cartService.findCartByUserId(jwt);
+        User user=userService.findUserByJwtToken(jwt);
+        Cart cart=cartService.findCartByUserId(user.getId());
 
         return cart;
     }
