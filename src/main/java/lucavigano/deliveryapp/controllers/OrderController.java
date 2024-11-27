@@ -7,6 +7,7 @@ import lucavigano.deliveryapp.entities.User;
 import lucavigano.deliveryapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,29 +18,20 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private UserServ userService;
 
     @PostMapping("/order")
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(@RequestBody OrderRequest req,
-                                  @RequestHeader("Authorization") String token) throws Exception {
-        String jwt = token.replace("Bearer ", "").trim();
-
-        User user=userService.findUserByJwtToken(jwt);
-        Order order = orderService.createOrder(req,user);
-
+                             @AuthenticationPrincipal User currentUser) throws Exception {
+        Order order = orderService.createOrder(req, currentUser);
         return order;
     }
 
     @GetMapping("/order/user")
     @ResponseStatus(HttpStatus.OK)
-    public List<Order> getOrderHistory(@RequestHeader("Authorization") String token) throws Exception {
-        String jwt = token.replace("Bearer ", "").trim();
-
-        User user=userService.findUserByJwtToken(jwt);
-        List<Order> orders = orderService.getUsersOrder(user.getId());
-
+    public List<Order> getOrderHistory(@AuthenticationPrincipal User currentUser) throws Exception {
+        List<Order> orders = orderService.getUsersOrder(currentUser.getId());
         return orders;
     }
 }
+

@@ -6,6 +6,7 @@ import lucavigano.deliveryapp.entities.User;
 import lucavigano.deliveryapp.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,45 +17,36 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
-    @Autowired
-    private UserServ userService;
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List <Restaurant> searchRestaurant(@RequestHeader ("Authorization") String token,
-                                            @RequestParam String keyword) throws Exception{
-        String jwt = token.replace("Bearer ", "").trim();
-        User user = userService.findUserByJwtToken(jwt);
-        List<Restaurant> restaurant= restaurantService.searchRestaurant(keyword);
-        return restaurant;
+    public List<Restaurant> searchRestaurant(@AuthenticationPrincipal User currentUser,
+                                             @RequestParam String keyword) throws Exception {
+        List<Restaurant> restaurants = restaurantService.searchRestaurant(keyword);
+        return restaurants;
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List <Restaurant> getAllRestaurant(@RequestHeader ("Authorization") String token) throws Exception{
-        String jwt = token.replace("Bearer ", "").trim();
-        User user = userService.findUserByJwtToken(jwt);
-        List<Restaurant> restaurant= restaurantService.getAllRestaurant();
-        return restaurant;
+    public List<Restaurant> getAllRestaurant(@AuthenticationPrincipal User currentUser) throws Exception {
+        List<Restaurant> restaurants = restaurantService.getAllRestaurant();
+        return restaurants;
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Restaurant findRestaurantById(@RequestHeader ("Authorization") String jwt,
-                                                @PathVariable Long id) throws Exception{
-
-        User user = userService.findUserByJwtToken(jwt);
-        Restaurant restaurant= restaurantService.findRestaurantById(id);
+    public Restaurant findRestaurantById(@AuthenticationPrincipal User currentUser,
+                                         @PathVariable Long id) throws Exception {
+        Restaurant restaurant = restaurantService.findRestaurantById(id);
         return restaurant;
     }
 
     @PutMapping("/{id}/add-favorites")
     @ResponseStatus(HttpStatus.OK)
-    public RestaurantDTO addToFavorites(@RequestHeader ("Authorization") String token,
-                                         @PathVariable Long id) throws Exception{
-        String jwt = token.replace("Bearer ", "").trim();
-        User user = userService.findUserByJwtToken(jwt);
-        RestaurantDTO restaurantDTO= restaurantService.addToFavorites(id,user);
+    public RestaurantDTO addToFavorites(@AuthenticationPrincipal User currentUser,
+                                        @PathVariable Long id) throws Exception {
+        RestaurantDTO restaurantDTO = restaurantService.addToFavorites(id, currentUser);
         return restaurantDTO;
     }
 }
+
