@@ -38,10 +38,12 @@ public class User implements UserDetails{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
 
-    @ElementCollection
-    private List<RestaurantDTO> favorites = new ArrayList();
+    @ElementCollection(fetch = FetchType.EAGER)
+//    @JsonIgnore
+    private List<RestaurantDTO> favorites = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+//    @JsonIgnore
     private List<Address> address = new ArrayList<>();
 
     public User(String fullName, String email, String password,String role) {

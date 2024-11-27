@@ -18,18 +18,10 @@ public class UserController {
     @GetMapping("/profile")
     @ResponseStatus(HttpStatus.OK)
     public User getCurrentUserProfile(@AuthenticationPrincipal User currentUser) {
+
+        currentUser.getFavorites().size();
+        currentUser.getAddress().size();
         return currentUser;
     }
-
-
-
-//    @GetMapping("/profile")
-//    @ResponseStatus(HttpStatus.OK)
-//    public User getCurrentUserProfile(@RequestHeader("Authorization") String token) {
-//        System.out.println("Token ricevuto: " + token);
-//        return null; // Temporaneamente per debug
-//    }
-
-
 }
 
