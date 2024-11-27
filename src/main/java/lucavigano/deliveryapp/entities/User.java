@@ -2,9 +2,6 @@ package lucavigano.deliveryapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lucavigano.deliveryapp.DTO.RestaurantDTO;
 import lucavigano.deliveryapp.enums.USER_ROLE;
@@ -18,6 +15,8 @@ import java.util.List;
 
 @Entity
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
