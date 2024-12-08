@@ -32,7 +32,7 @@ public class IngredientController {
     public IngredientsItem createIngredientItem(
             @RequestBody IngredientRequest request
     ) throws Exception {
-        IngredientsItem item=ingredientService.createIngredientItem(request.getRestaurantId(),request.getName(), request.getCategotyId());
+        IngredientsItem item=ingredientService.createIngredientItem(request.getRestaurantId(),request.getName(), request.getCategoryId());
         return item;
     }
 

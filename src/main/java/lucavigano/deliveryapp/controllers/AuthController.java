@@ -1,8 +1,10 @@
 package lucavigano.deliveryapp.controllers;
 
+import lucavigano.deliveryapp.DTO.RegistrationResponseDTO;
 import lucavigano.deliveryapp.DTO.UserDTO;
 import lucavigano.deliveryapp.DTO.UserLoginDTO;
 import lucavigano.deliveryapp.DTO.UserLoginResponseDTO;
+import lucavigano.deliveryapp.config.JWT;
 import lucavigano.deliveryapp.entities.Cart;
 import lucavigano.deliveryapp.entities.User;
 import lucavigano.deliveryapp.exceptions.BadRequestException;
@@ -28,6 +30,8 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    JWT jwt;
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginDTO body) {
@@ -38,7 +42,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public User save(@RequestBody @Validated UserDTO body, BindingResult validationResult) {
+    public RegistrationResponseDTO save(@RequestBody @Validated UserDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage())
                     .collect(Collectors.joining(". "));
@@ -46,6 +50,16 @@ public class AuthController {
         }
 
         User savedUser = this.userService.save(body);
+        User userFound = this.userService.finByEmail(body.email());
+        RegistrationResponseDTO registrationResponseDTO=new RegistrationResponseDTO();
+        String accessToken= jwt.createToken(userFound);
+        registrationResponseDTO.setFullname(userFound.getFullName());
+        registrationResponseDTO.setEmail(userFound.getEmail());
+        registrationResponseDTO.setPassWord(userFound.getPassword());
+        registrationResponseDTO.setRole(userFound.getRole());
+        registrationResponseDTO.setToken(accessToken);
+
+        System.out.println("User data received: " + body);
 
         Cart cart = new Cart();
         cart.setCustomer(savedUser);
@@ -53,6 +67,6 @@ public class AuthController {
 
 
 
-        return savedUser;
+        return registrationResponseDTO;
     }
 }

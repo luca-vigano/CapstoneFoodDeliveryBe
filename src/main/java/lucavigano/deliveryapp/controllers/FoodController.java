@@ -28,8 +28,8 @@ public class FoodController {
     @GetMapping("/restaurant/{restaurantId}")
     @ResponseStatus(HttpStatus.OK)
     public List<Food> getRestaurantFood(
-            @RequestParam boolean vegetarian,
-            @RequestParam boolean nonvegetarian,
+            @RequestParam(required = false) boolean vegetarian,
+            @RequestParam(required = false) boolean nonvegetarian,
             @RequestParam(required = false) String food_category,
             @PathVariable Long restaurantId,
             @AuthenticationPrincipal User currentUser) throws Exception {

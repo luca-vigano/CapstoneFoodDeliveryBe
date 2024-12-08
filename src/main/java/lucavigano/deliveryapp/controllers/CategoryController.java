@@ -25,10 +25,11 @@ public class CategoryController {
         return createdCategory;
     }
 
-    @GetMapping("/category/restaurant")
+    @GetMapping("/category/restaurant/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Category> getRestaurantCategory(@AuthenticationPrincipal User currentUser) throws Exception {
-        List<Category> categories = categoryService.findCategoryByRestaurantId(currentUser.getId());
+    public List<Category> getRestaurantCategory(@AuthenticationPrincipal User currentUser,
+                                                @PathVariable Long id) throws Exception {
+        List<Category> categories = categoryService.findCategoryByRestaurantId(id);
         return categories;
     }
 }
