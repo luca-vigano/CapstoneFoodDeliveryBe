@@ -46,7 +46,7 @@ public class OrderService{
         Order createdOrder=new Order();
         createdOrder.setCustomer(user);
         createdOrder.setCreateAt(LocalDateTime.now());
-        createdOrder.setOrderStatus("IN ATTESA");
+        createdOrder.setOrderStatus("PENDING");
         createdOrder.setDeliveryAddress(savedAddress);
         createdOrder.setRestaurant(restaurant);
 
