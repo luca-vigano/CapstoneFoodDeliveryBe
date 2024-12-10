@@ -28,12 +28,15 @@ public class FoodController {
     @GetMapping("/restaurant/{restaurantId}")
     @ResponseStatus(HttpStatus.OK)
     public List<Food> getRestaurantFood(
-            @RequestParam(required = false) boolean vegetarian,
-            @RequestParam(required = false) boolean nonvegetarian,
+            @RequestParam(required = false) Boolean vegetarian,
+            @RequestParam(required = false) Boolean nonvegetarian,
             @RequestParam(required = false) String food_category,
             @PathVariable Long restaurantId,
             @AuthenticationPrincipal User currentUser) throws Exception {
-        List<Food> food = foodService.getRestaurantsFood(restaurantId, vegetarian, nonvegetarian, food_category);
+        List<Food> food = foodService.getRestaurantsFood(restaurantId,
+                Boolean.TRUE.equals(vegetarian),
+                Boolean.TRUE.equals(nonvegetarian),
+                food_category);
         return food;
     }
 }
