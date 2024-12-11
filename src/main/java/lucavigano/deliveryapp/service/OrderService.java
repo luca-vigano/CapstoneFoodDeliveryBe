@@ -50,6 +50,7 @@ public class OrderService{
         createdOrder.setDeliveryAddress(savedAddress);
         createdOrder.setRestaurant(restaurant);
 
+
         Cart cart=cartService.findCartByUserId(user.getId());
 
         List<OrderItem> orderItems=new ArrayList<>();
@@ -65,9 +66,11 @@ public class OrderService{
             orderItems.add(savedOrderitem);
         }
 
-        Long totalPrice= cartService.calculateCartTotal(cart);
+        Long totalCart = cartService.calculateCartTotal(cart);
         createdOrder.setItems(orderItems);
-        createdOrder.setTotalPrice(totalPrice);
+        createdOrder.setTotalPrice(totalCart);
+        createdOrder.setTotalAmmount(totalCart + 3 + 2);
+        createdOrder.setTotalItem(orderItems.size());
 
         Order savedOrder=orderRepository.save(createdOrder);
         restaurant.getOrders().add(savedOrder);
