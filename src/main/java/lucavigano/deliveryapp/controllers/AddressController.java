@@ -1,6 +1,5 @@
 package lucavigano.deliveryapp.controllers;
 
-import lucavigano.deliveryapp.DTO.UserDTO;
 import lucavigano.deliveryapp.entities.Address;
 import lucavigano.deliveryapp.entities.User;
 import lucavigano.deliveryapp.repository.UserRepository;
@@ -32,11 +31,13 @@ public class AddressController {
         address.setState(addressDTO.getState());
         address.setPostalCode(addressDTO.getPostalCode());
         address.setCountry(addressDTO.getCountry());
+        address.setUser(currentUser);
 
 
         Address savedAddress = addressService.saveAddress(address);
-        currentUser.getAddresses().add(savedAddress);
+        currentUser.getAddress().add(savedAddress);
         userRepository.save(currentUser);
+
         return savedAddress;
     }
 
