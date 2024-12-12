@@ -56,7 +56,21 @@ public class AddressController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAddress(@PathVariable Long id) {
+    public void deleteAddress(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        Address address = addressService.getAddressById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Indirizzo non trovato con ID: " + id));
+
+        if (!address.getUser().getId().equals(currentUser.getId())) {
+            throw new SecurityException("Non autorizzato a eliminare questo indirizzo");
+        }
+
+        // Rimuovi l'indirizzo dalla lista dell'utente
+        currentUser.getAddress().removeIf(addr -> addr.getId().equals(id));
+        userRepository.save(currentUser); // Salva l'utente aggiornato
+
+        // Opzionale: Elimina esplicitamente l'indirizzo
         addressService.deleteAddress(id);
     }
+
+
 }

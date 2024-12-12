@@ -20,8 +20,9 @@ public class Address {
     private String state;
     private String postalCode;
     private String country;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+//    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 

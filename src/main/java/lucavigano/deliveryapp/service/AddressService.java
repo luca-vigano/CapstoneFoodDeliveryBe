@@ -29,6 +29,11 @@ public class AddressService {
     }
 
     public void deleteAddress(Long id) {
+        Optional<Address> address = addressRepository.findById(id);
+        if (address.isEmpty()) {
+            throw new IllegalArgumentException("Indirizzo non trovato con ID: " + id);
+        }
         addressRepository.deleteById(id);
     }
+
 }
