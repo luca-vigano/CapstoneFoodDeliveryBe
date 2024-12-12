@@ -36,7 +36,7 @@ public class Food {
 
     private boolean isVegetarian;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<IngredientsItem> ingredients  = new ArrayList<>();
 
     private LocalDate creationDate;

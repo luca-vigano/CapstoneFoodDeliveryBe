@@ -1,8 +1,10 @@
 package lucavigano.deliveryapp.service;
 
+import lucavigano.deliveryapp.entities.Food;
 import lucavigano.deliveryapp.entities.IngredientCategory;
 import lucavigano.deliveryapp.entities.IngredientsItem;
 import lucavigano.deliveryapp.entities.Restaurant;
+import lucavigano.deliveryapp.repository.FoodRepository;
 import lucavigano.deliveryapp.repository.IngredientCategoryRepository;
 import lucavigano.deliveryapp.repository.IngredientItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class IngredientService {
     private IngredientCategoryRepository ingredientCategoryRepository;
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private FoodRepository foodRepository;
 
 
     public IngredientCategory createIngredientCategory(String name, Long restaurantId) throws Exception {
@@ -78,4 +82,23 @@ public class IngredientService {
         ingredientsItem.setInStock(!ingredientsItem.isInStock());
         return ingredientItemRepository.save(ingredientsItem);
     }
+
+    public void deleteIngredientCategory(Long id) {
+        IngredientCategory category = ingredientCategoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("IngredientCategory not found"));
+
+        // Trovare tutti gli ingredienti associati
+        List<IngredientsItem> ingredients = category.getIngredients();
+
+        // Eliminare i food che contengono questi ingredienti
+        for (IngredientsItem ingredient : ingredients) {
+            List<Food> foods = foodRepository.findByIngredientsContaining(ingredient);
+            foodRepository.deleteAll(foods);
+        }
+
+        // Eliminare la categoria e gli ingredienti associati
+        ingredientCategoryRepository.delete(category);
+    }
+
+
 }

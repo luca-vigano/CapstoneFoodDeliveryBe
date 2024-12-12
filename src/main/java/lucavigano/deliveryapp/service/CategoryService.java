@@ -1,8 +1,10 @@
 package lucavigano.deliveryapp.service;
 
 import lucavigano.deliveryapp.entities.Category;
+import lucavigano.deliveryapp.entities.Food;
 import lucavigano.deliveryapp.entities.Restaurant;
 import lucavigano.deliveryapp.repository.CategoryRepository;
+import lucavigano.deliveryapp.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ public class CategoryService {
     private RestaurantService restaurantService;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private FoodRepository foodRepository;
 
 
     public Category createCategory(String name, Long userId) throws Exception{
@@ -40,5 +44,19 @@ public class CategoryService {
             throw new Exception("Categoria non trovata");
         }
         return category.get();
+    }
+
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        // Trovare tutti i cibi associati a questa categoria
+        List<Food> foods = foodRepository.findByFoodCategory(category);
+
+        // Eliminare i cibi associati
+        foodRepository.deleteAll(foods);
+
+        // Eliminare la categoria
+        categoryRepository.delete(category);
     }
 }
