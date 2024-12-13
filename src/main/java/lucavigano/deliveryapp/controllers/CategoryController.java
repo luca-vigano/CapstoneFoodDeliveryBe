@@ -32,5 +32,11 @@ public class CategoryController {
         List<Category> categories = categoryService.findCategoryByRestaurantId(id);
         return categories;
     }
+
+    @DeleteMapping("/admin/category/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+    }
 }
 

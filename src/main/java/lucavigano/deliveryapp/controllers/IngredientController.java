@@ -62,4 +62,17 @@ public class IngredientController {
         List <IngredientCategory> item=ingredientService.findIngredientCategoryByRestaurantId(id);
         return item;
     }
+
+    @DeleteMapping("/category/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteIngredientCategory(@PathVariable Long id) throws Exception {
+        ingredientService.deleteIngredientCategory(id);
+    }
+
+    // Nuovo metodo: Eliminazione di un IngredientsItem
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteIngredientItem(@PathVariable Long id) throws Exception {
+        ingredientService.deleteIngredientItem(id);
+    }
 }

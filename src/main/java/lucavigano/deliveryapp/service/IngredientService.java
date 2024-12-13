@@ -25,6 +25,7 @@ public class IngredientService {
     private FoodRepository foodRepository;
 
 
+
     public IngredientCategory createIngredientCategory(String name, Long restaurantId) throws Exception {
 
         Restaurant restaurant=restaurantService.findRestaurantById(restaurantId);
@@ -83,22 +84,34 @@ public class IngredientService {
         return ingredientItemRepository.save(ingredientsItem);
     }
 
-    public void deleteIngredientCategory(Long id) {
+    public void deleteIngredientCategory(Long id) throws Exception {
+        // Recupera la categoria
         IngredientCategory category = ingredientCategoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("IngredientCategory not found"));
+                .orElseThrow(() -> new Exception("IngredientCategory not found with ID: " + id));
 
-        // Trovare tutti gli ingredienti associati
-        List<IngredientsItem> ingredients = category.getIngredients();
-
-        // Eliminare i food che contengono questi ingredienti
-        for (IngredientsItem ingredient : ingredients) {
-            List<Food> foods = foodRepository.findByIngredientsContaining(ingredient);
-            foodRepository.deleteAll(foods);
+        // Trova e elimina tutti gli ingredient associati
+        for (IngredientsItem ingredient : category.getIngredients()) {
+            deleteIngredientItem(ingredient.getId());
         }
 
-        // Eliminare la categoria e gli ingredienti associati
+        // Elimina la categoria
         ingredientCategoryRepository.delete(category);
     }
 
+    // Elimina un IngredientsItem e tutti i Food associati
+    public void deleteIngredientItem(Long id) throws Exception {
+        // Recupera l'ingredient
+        IngredientsItem ingredient = ingredientItemRepository.findById(id)
+                .orElseThrow(() -> new Exception("IngredientsItem not found with ID: " + id));
+
+        // Trova e elimina tutti i Food associati
+        List<Food> foodsWithIngredient = foodRepository.findByIngredientsContaining(ingredient);
+        for (Food food : foodsWithIngredient) {
+            foodRepository.delete(food);
+        }
+
+        // Elimina l'IngredientsItem
+        ingredientItemRepository.delete(ingredient);
+    }
 
 }
