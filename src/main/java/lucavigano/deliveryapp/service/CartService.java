@@ -28,7 +28,7 @@ public class CartService {
         Food food = foodService.findFoodById(req.getFoodId());
         Cart cart = cartRepository.findByCustomerId(currentUser.getId());
 
-        // Verifica se il cibo è già nel carrello
+
         for (CartItem cartItem : cart.getItems()) {
             if (cartItem.getFood().equals(food)) {
                 int newQuantity = cartItem.getQuantity() + req.getQuantity();
@@ -36,7 +36,7 @@ public class CartService {
             }
         }
 
-        // Creazione di un nuovo CartItem
+
         CartItem newCartItem = new CartItem();
         newCartItem.setFood(food);
         newCartItem.setCart(cart);
