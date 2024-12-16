@@ -46,6 +46,7 @@ public class EventService {
         event.setImage(updatedEvent.getImage());
         event.setStartedAt(updatedEvent.getStartedAt());
         event.setEndsAt(updatedEvent.getEndsAt());
+        event.setDescription((updatedEvent.getDescription()));
         return eventRepository.save(event);
     }
 
