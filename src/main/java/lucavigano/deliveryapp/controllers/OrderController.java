@@ -23,22 +23,22 @@ public class OrderController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping("/order")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Order createOrder(@RequestBody OrderRequest req,
-                                       @AuthenticationPrincipal User currentUser) throws Exception {
-        Order order = orderService.createOrder(req, currentUser);
-
-        return order;
-    }
 //    @PostMapping("/order")
 //    @ResponseStatus(HttpStatus.CREATED)
-//    public PaymentResponse createOrder(@RequestBody OrderRequest req,
+//    public Order createOrder(@RequestBody OrderRequest req,
 //                                       @AuthenticationPrincipal User currentUser) throws Exception {
 //        Order order = orderService.createOrder(req, currentUser);
-//        PaymentResponse response=paymentService.createPaymentLink(order);
-//        return response;
+//
+//        return order;
 //    }
+    @PostMapping("/order")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PaymentResponse createOrder(@RequestBody OrderRequest req,
+                                       @AuthenticationPrincipal User currentUser) throws Exception {
+        Order order = orderService.createOrder(req, currentUser);
+        PaymentResponse response=paymentService.createPaymentLink(order);
+        return response;
+    }
 
 
 
