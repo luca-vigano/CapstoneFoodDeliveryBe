@@ -22,7 +22,7 @@ public class AdminRestaurantController {
     @Autowired
     private EventService eventService;
 
-    @PostMapping()
+    @PostMapping("/restaurants")
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant createRestaurant(@RequestBody CreateRestaurantRequest req,
                                        @AuthenticationPrincipal User currentUser) throws Exception {
